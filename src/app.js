@@ -48,6 +48,22 @@ app.get('/weather', (req, res) => {
     });
 });
 
+app.get('/help/*', (req, res) => {
+    res.status(404).render('404', {
+        title: 'Not found',
+        name: 'Patricio Raschetti',
+        errorMessage: 'Help article not found!'
+    });
+});
+
+app.get('*', (req, res) => {
+    res.status(404).render('404', {
+        title: 'Not found',
+        name: 'Patricio Raschetti',
+        errorMessage: 'Page not found!'
+    });
+});
+
 // Listen fn.
 app.listen(3000, () => {
     console.log('Server is up on port 3000.');
