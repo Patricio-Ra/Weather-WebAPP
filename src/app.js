@@ -55,20 +55,16 @@ app.get('/weather', (req, res) => {
     };
     geocode(req.query.address, (error, { latitude, longitude, location }) => {
         if (error) {
-            return res.send({
-                error: error
-            });
+            return res.send({ error });
         };
-        forecast(latitude, longitude, (error, forecastData) => {
+        forecast(latitude, longitude, (error, forecast) => {
             if (error) {
-                return res.send({
-                    error: error
-                });
+                return res.send({ error });
             };
             return res.send({
                 address: req.query.address,
-                location: location,
-                forecast: forecastData
+                location,
+                forecast
             });
         });
     });
