@@ -1,6 +1,8 @@
 const path = require('path');
 const express = require('express');
 const hbs = require('hbs');
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 
 const app = express();
 
@@ -44,17 +46,31 @@ app.get('/help', (req, res) => {
     });
 });
 
-// Gets APIs endpoints.
+// Get API endpoint.
 app.get('/weather', (req, res) => {
     if (!req.query.address || req.query.address.trim() === ''){
         return res.send({
             error: 'No address provided.'
         });
     };
-    res.send({
-        address: req.query.address,
-        location: 'Buenos Aires',
-        forecast: 'Its 25° outside.'
+    geocode(req.query.address, (error, { latitude, longitude, location }) => {
+        if (error) {
+            return res.send({
+                error: error
+            });
+        };
+        forecast(latitude, longitude, (error, forecastData) => {
+            if (error) {
+                return res.send({
+                    error: error
+                });
+            };
+            return res.send({
+                address: req.query.address,
+                location: location,
+                forecast: forecastData
+            });
+        });
     });
 });
 
