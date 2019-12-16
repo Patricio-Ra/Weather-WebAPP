@@ -10,7 +10,7 @@ const forecast = (latitude, longitude, callback) => {
         } else {
             const { temperature, precipProbability } = body.currently;
             const { temperatureLow, temperatureHigh, summary} = body.daily.data[0];
-            callback(undefined, `${summary} Today has a min temp of ${temperatureLow}° and a max temp of ${temperatureHigh}° It's currently ${temperature}° out. There is ${(precipProbability * 100).toFixed(0)}% chance of rain.`);
+            callback(undefined, `${summary} Today has a min temp of ${temperatureLow.toFixed(0)}° and a max temp of ${temperatureHigh.toFixed(0)}°. It's currently ${temperature.toFixed(0)}° out. There is ${(precipProbability * 100).toFixed(0)}% chance of rain.`);
         };
     });
 };
